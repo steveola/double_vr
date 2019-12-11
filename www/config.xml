@@ -59,6 +59,7 @@
     <plugin name="cordova-plugin-whitelist"           source="npm" spec="~1.2.1" />
     <plugin name="com.virtuoworks.cordova-plugin-canvascamera" spec="https://github.com/VirtuoWorks/CanvasCameraPlugin.git" />
     <plugin name="cordova-plugin-x-socialsharing" source="npm" version="5.4.0" />
+    <plugin name="admob" source="npm" version="5.4.2"/>
 
     <!-- Define app icon and splashscreen for each platform. -->
     <icon src="www/icon.png" />
