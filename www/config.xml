@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
-<widget xmlns     = "http://www.w3.org/ns/widgets"
-        xmlns:gap = "http://phonegap.com/ns/1.0"
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:android="http://schemas.android.com/apk/res/android" 
+        xmlns:cdv="http://cordova.apache.org/ns/1.0"
         id        = "com.vrabbiedu.doublevr" 
         version   = "1.2.1">
-
+    
     <name>Double VR</name>
 
     <description>
@@ -95,6 +96,9 @@
      <allow-ntent href="ftp:*" />
     <platform name="android">
         <allow-intent href="market:*" />
+       <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+                <application android:usesCleartextTraffic="true" />
+        </edit-config>       
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
