@@ -1,66 +1,1211 @@
-<!DOCTYPE html>
-<!--
-    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
-    <!--
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
-   
-    
-    -->
-    <!-- Good default declaration:
-    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-        * Enable inline JS: add 'unsafe-inline' to default-src
-        * Enable eval(): add 'unsafe-eval' to default-src
-    * Create your own at http://cspisawesome.com
-    -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>  
+<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>  
+<script type="text/javascript" charset="utf-8">
 
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
-    <title>Hello World</title>
-</head>
 
-<body>
-    <div class="app">
-        <h1>PhoneGap</h1>
-        <div id="deviceready" class="blink">
-            <p class="event listening">Connecting to Device</p>
-            <p class="event received">Device is Ready</p>
-            <button onclick="admob.initAdmob('ca-app-pub-6425639470977936/1248336987','ca-app-pub-6425639470977936/7250556404');">INIT ADDS</button>
-<button onclick="admob.showBanner(admob.BannerSize.BANNER,admob.Position.TOP_APP);">SHOW ADDS</button>
-        </div>
-    </div>
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript">
-        app.initialize();
+    // Wait for device API libraries to load
+    //
+    function onLoad() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        // Register the event listener
+        document.addEventListener("backbutton", onBackKeyDown, false);
+    }
+
+    // Handle the back button
+    //
+    function onBackKeyDown() {
+    //alert("Click on your device home key to minimize");
+	pause();
+    }
+
     </script>
-</body>
+<script src="jquery.js"></script>
+<script>
+function shuffelWord(word){
+    var shuffledWord = '';
+    word = word.split('');
+    while (word.length > 0) {
+      shuffledWord +=  word.splice(word.length * Math.random() << 0, 1);
+    }
+    return shuffledWord;
+}
+</script>
+<style>
 
+
+
+
+hr {margin:0px;}
+#game_inputs div div input:focus{border:2px solid blue;}
+#game_inputs div div input:disabled{border:2px solid red;color:black;}
+#game_inputs div div input:hover{border:2px solid white;color:black;}
+
+#rule {background:url('images/hint_bg.png');background-size:100% 100%;position:fixed;top:0px;left:0px;z-index:500;width:150px;padding-left:4px;padding-right:4px;padding-bottom:4px;}	
+
+#time_display {background:url('images/timer_bg.png');background-size:100% 100%; padding:3px;z-index:520;position:fixed;top:0px;right:10px;}
+
+#console_display {background:black;color:lime;background-size:100% 100%; padding:3px;z-index:521;position:fixed;top:0px;left:165px;}
+
+#score_display {display:none;background:white;color:white;background-size:100% 100%;height:100%;width:80%;overflow:auto;z-index:524;position:fixed;top:0px;left:0px;}
+
+#player_display {background:black;color:white;background-size:100% 100%; padding:3px;z-index:523;position:fixed;top:330px;left:0px;}
+
+#score_button {background:black;color:white;background-size:100% 100%; padding:3px;z-index:523;position:fixed;top:380px;left:0px;}
+
+#start_button {background:url('images/start.png');background-size:100% 100%; position:fixed;bottom:40px;right:0px; width:70px;height:50px;}
+#pause_button {background:url('images/pause.png');background-size:100% 100%; position:fixed;bottom:40px;right:0px; width:70px;height:50px;}
+#resume_button {background:url('images/resume.png');background-size:100% 100%; position:fixed;bottom:40px;right:0px; width:70px;height:50px;}
+
+#progress_bar {position:relative;top:-130px;left:0px; width:150px;height:60px;border:4px red dotted;border-radius:15px;overflow:auto;}
+#progress_point {background:url('images/progress_img.png');background-size:100% 100%;height:100%; width:0%;}
+
+#turn {position:fixed;top:300px;left:0px; width:100px;border:4px red solid;border-radius:15px; text-align:center;background:white;}
+
+button {background:url('images/button.png');background-size:100% 100%; border:none;padding:3px; font-weight:bold; text-shadow:red 1px 1px 4px;}
+
+.sq_blank {color:red; background-color:red;}
+
+</style>
+
+</head>
+<body style="background:url('images/gameback.png') #aaffaa;">
+
+
+
+<!--START MENU -->
+<div id='main_menu'  style="background:white;position:fixed;top:0px;left:0px;z-index:1000; width:100%; height:100%; text-align:center;">
+<br />
+<img src='images/header.png'>
+<br />
+<button id="show_instructions"> INSTRUCTIONS </button><br />
+<button id="show_games"> SELECT GAME </button><br />
+<button  id="show_difficulty"> DIFFICULTY </button><br />
+<!--<button> MUTE </button><br />-->
+<button  id="show_multiplay"> MULTIPLAY </button><br />
+<img src='images/big_icon.png' 'style='width:250px;'>
+<div id='start_button' style=''>
+&nbsp;
+</div>
+</div>
+<!--END START MENU -->
+
+<!-- PAUSED MENU-->
+<div id='pause_menu' style="background:white url('images/back.png');position:fixed;top:0px;left:0px;z-index:100000; width:100%; height:100%; text-align:center;display:none;">
+<br />
+<br />
+<button id="back_to_main"> BACK TO MENU </button><br />
+<!--<button> MUTE </button><br />-->
+
+<div id='resume_button' style=''>
+&nbsp;
+</div>
+</div>
+<!-- END PAUSED MENU-->
+<!-- FINISH MENU-->
+<div id='finish_menu' style="background:white  url('images/back.png');position:fixed;top:0px;left:0px;z-index:100000; width:100%; height:100%; text-align:center;display:none;">
+<img src='images/congrats.gif' style='width:50%;height:100px;' />
+<br />
+<b>
+<div id='game_complete'></div>
+</b>
+<br />
+<button id="back_to_mainf"> BACK TO MENU </button><br />
+</div>
+<!-- END FINISH MENU-->
+
+<!--INSTRUCTION MENU --->
+<div id="instructions" style="background:white  url('images/back.png');position:fixed;top:0px;left:0px;z-index:100005; width:100%; height:100%; text-align:center;display:none;">
+<div style='background:white;'>
+<b>INSTRUCTIONS</b><br />
+Complete each of the words according to the hint given at the top left corner of the screen. The end character of each word begins the next word with equal length.<br />
+</div>
+<button id="close_instruction">BACK</button>
+
+</div>
+
+<!--END INSTRUCTION MENU --->
+
+<!--GAMES MENU --->
+<div id="games" style="background:white  url('images/back.png');position:fixed;top:0px;left:0px;z-index:100005; width:100%; height:100%; text-align:center;display:none; overflow:auto;">
+<div style='background:white;'>
+<b>SELECT A GAME</b><br />
+</div>
+<button id="close_games" onclick="close_games()">BACK</button>
+
+</div>
+
+<!--END GAMES MENU --->
+
+<!--DIFFICULTY MENU --->
+<div id="difficulty" style="background:white url('images/back.png');position:fixed;top:0px;left:0px;z-index:100005; width:100%; height:100%; text-align:center;display:none;">
+Set difficulty <br />
+
+<button onclick="difficulty=2; set_diff(1);" id='diff_1' style='border:4px dotted black;'>EASY</button> <br />
+<button onclick="difficulty=3; set_diff(2);" id='diff_2'>MEDIUM</button> <br />
+<button onclick="difficulty=4; set_diff(3);" id='diff_3'>HARD</button>
+<br />
+<br />
+<button id="close_difficulty">BACK</button>
+
+</div>
+<!--END DIFFICULTY MENU --->
+
+<!---MULTIPLAY --->
+<div id="multiplay" style="background: white;position:fixed;top:0px;left:0px;z-index:100005; width:100%; height:100%; text-align:center;display:none;">
+Set multiplay
+<script>
+////RETRIVE ACTIVE GAMES
+function get_active_games(kind,get_game_id){
+game_url = $('#game_address').val();
+//alert(game_url);
+  $.post(game_url,{query_type:kind, game_id:get_game_id },function(result){
+    $("#active_game").html(result);
+  });
+
+}
+
+function get_active_gamesc(kind,get_game_id){
+game_url = $('#game_address').val();
+//alert(game_url);
+  $.post(game_url,{query_type:kind, game_id:get_game_id },function(result){
+    $("#active_gamec").html(result);
+  });
+
+}
+
+function get_score_board(kind,get_game_id){
+game_url = $('#game_address').val();
+//alert(game_url);
+  $.post(game_url,{query_type:kind, game_id:get_game_id },function(result){
+    $("#active_score").html(result);
+  });
+
+}
+</script>
+<button id="close_multiplay">BACK</button>
+<br />
+Address: <input type='text' id='game_address' value="http://"/>
+<input type='button' value='CHECK' onclick="get_active_games('active_games',0)" />
+
+<div id='active_game' style='overflow:auto; height:50%;'>No active games yet</div>
+<div id='active_gamec'></div>
+
+<div id='active_score'></div>
+
+</div>
+
+<!----END MULTIPLAY--->
+
+<!---- GAME AREA--->
+
+
+<div id='time_display'></div>
+<div id='console_display'></div>
+<div id='player_display'>PLAYER </div>
+<div id='score_display'>SCORES</div>
+<div id='score_button'><span class='close_score'>Scores</span></div>
+
+<div id='rule'>
+
+<div id='play_key'></div>
+
+</div>
+
+
+<br />
+<br />
+<div id="game_style" style="display:none;">
+<!--STYLE AREA-->
+</div>
+
+
+<div id="game_inputs" style="width:720px;height:500px;">
+
+<!-- GAME INPUTS AREA--->
+
+</div>
+
+
+
+<div id='progress_bar'>
+
+<div id='progress_point' style=''>0%</div>
+
+</div>
+
+<div id='turn'>TURN</div>
+
+<div id='pause_button' style=''> &nbsp;</div>
+<!----END  GAME AREA--->
+
+<script>
+$("#start_button").click(function(){
+$(this).parent().slideUp("fast");
+star_game();
+});
+</script>
+
+<script>
+$("#back_to_main").click(function(){
+$("#main_menu").fadeIn("slow");
+$("#pause_menu").fadeOut("slow");
+$("#game_inputs").html("");
+$("#rule").html("");
+is_multiplay = 0;
+});
+</script>
+
+<script>
+$("#back_to_mainf").click(function(){
+$("#main_menu").fadeIn("slow");
+$("#finish_menu").fadeOut("slow");
+$("#game_inputs").html("");
+$("#rule").html("");
+});
+</script>
+
+
+<script>
+$("#resume_button").click(function(){
+$(this).parent().slideUp("fast");
+game_paused = false;
+//alert(46827846);
+});
+</script>
+
+
+<script>
+$("#pause_button").click(function(){
+$("#pause_menu").slideDown("fast");
+game_paused = true;
+//$("#play_key").html("");
+//alert(46827846);
+});
+function pause(){
+$("#pause_menu").slideDown("fast");
+game_paused = true;
+//$("#play_key").html("");
+//alert(46827846);
+}
+</script>
+
+<script>
+$("#show_instructions").click(function(){
+$("#instructions").slideDown("fast");
+//$("#play_key").html("");
+//alert(46827846);
+});
+</script>
+
+<script>
+$("#close_instruction").click(function(){
+$("#instructions").slideUp("fast");
+//$("#play_key").html("");
+//alert(46827846);
+});
+</script>
+
+<script>
+$("#show_games").click(function(){
+$("#games").slideDown("fast");
+});
+</script>
+
+<script>
+function close_games(){
+$("#games").slideUp("fast");
+}
+</script>
+
+
+<script>
+$("#show_difficulty").click(function(){
+$("#difficulty").slideDown("fast");
+//$("#play_key").html("");
+//alert(46827846);
+});
+</script>
+
+<script>
+$("#close_difficulty").click(function(){
+$("#difficulty").slideUp("fast");
+//$("#play_key").html("");
+//alert(46827846);
+});
+</script>
+
+<script>
+$("#show_multiplay").click(function(){
+$("#multiplay").slideDown("fast");
+//$("#play_key").html("");
+//alert(46827846);
+});
+</script>
+
+<script>
+function complete_page(){
+var full_time = $("#time_display").html();
+//play_key
+$("#game_complete").html("COMPLETED <br />Time: " + full_time);
+$("#finish_menu").slideDown("fast");
+//$("#play_key").html("");
+//alert(46827846);
+
+}
+</script>
+
+<script>
+$("#close_multiplay").click(function(){
+$("#multiplay").slideUp("fast");
+//$("#play_key").html("");
+//alert(46827846);
+});
+</script>
+
+
+<script>
+$(".close_score").click(function(){
+
+$("#score_display").toggle("fast");
+
+});
+
+function close_score(){
+$("#score_display").toggle("fast");
+}
+</script>
+
+<script>
+function set_diff(diff){  /// set difficulty
+for(w=1;w<=3;w++){
+if(w!=diff)
+{$("#diff_" + w).attr("style","");}
+$("#diff_" + diff).attr("style","border:4px dotted black;");
+}
+
+}
+</script>
+
+<script>
+
+x_time = 0;
+
+setInterval(function (){update_timer();},1000);
+
+function update_timer(){
+if(game_paused == false){
+x_time += 1;
+
+leadz = "";
+if((x_time<10)) {leadz = "0"}
+
+time_sec = leadz + "" +(x_time%60);
+
+xtime_minute = Math.floor(x_time/60) % 60;
+leadzx = "";
+if((xtime_minute<10)) {leadzx = "0"}
+
+time_minute = leadzx + "" + Math.floor(x_time/60) % 60;
+
+time_hour = Math.floor(((x_time/3600)%60)%24);
+
+print_time = time_hour + ":" + time_minute + ":" + time_sec;
+
+$("#time_display").html(print_time);
+}
+}
+</script>
+
+
+
+<script>
+
+is_multiplay = 0;
+
+
+team_id = 0;
+
+
+number_of_teams = 1; 
+
+bonus_time = 10;
+
+allowed_time_per_ques = 0;
+
+game_play_id = 0;
+
+my_turns = [];
+
+is_bonus = 0;
+
+loss_team = 0;
+
+ques_bonus = 0;
+
+last_max = 0;
+
+$("#score_button").hide();
+$("#progress_bar").html("<div id='progress_point' style=''>0%</div>");
+
+$('#player_display').html('SINGLE');
+
+ difficulty = 2;
+ 
+ $('#turn').html('ARTSCHIZ');
+ 
+ max_success_count = 18;
+ 
+ ////ADD OFFLINE GAME SETS
+ game_sets = [];
+ 
+ //HEXAGON 1
+ game_sets.push(['HEXAGON',['GAME 1',['producing','greatness','selective','excluding','grumbling','guilttrip'],['special','lessons','seeking','genuine','educate','express'],['force','error','repel','loose','equip','proof'],['get','ten','new','way','yet','tag']],['RULES 1',['Bringing something into existence (v.) ',' Eminence or distinction (n.) ',' (Of a person) tending to choose carefully (adj.)',' Not taking someone or something into account (prep.) ',' Complaining about someone or something in an annoyed way (v.) ',' Make someone feel guilty, especially in order to induce them to do something (v.)'],['Better, greater, or otherwise different from what is usual (adj.) ',' Things to be learned (n., pl.) ','Attempting to find something (v.) ',' Truly what something is said to be; authentic (adj.)',' Give someone training in, or information on a particular subject (v.) ',' Convey a thought or feeling in words or by gestures and conduct (v.) '],['Make someone do something against their will (v.) ',' A mistake or inaccuracy, as of action or speech (n.) ','To force something or someone to move away or stop attacking you (v.) ',' Not firmly or tightly fixed in place (adj.) ',' Prepare someone mentally for a particular situation or task (v.) ',' Evidence or argument establishing a fact or the truth of a statement (n.) '],['To cause to be in one`s possession or succeed in having available for one`s use or enjoyment (v.) ',' Square root of 100 (num.) ',' Having been made or come into being only a short time ago (adj.) ','How someone or something does something (n.) ',' Still (adv.) ','Attach a label to (v.) ']],['TYPES','MEANING','MEANING','MEANING','MEANING'],"<style>#section1 {width:200px;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(0deg); /* IE 9 */    -webkit-transform: rotate(0deg); /* Safari */    transform: rotate(0deg); float:left;position:relative; left:200; top:0px;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section1 input {border-radius:15px;background:url(\'images/blue_input.png\');background-size:100% 100%;}#section2 {width:200px;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(60deg); /* IE 9 */    -webkit-transform: rotate(60deg); /* Safari */    transform: rotate(60deg); float:left;position:relative; left:98;top:58;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section2 input { border-radius:15px;background:url(\'images/yellow_input.png\');background-size:100% 100%;}#section3 {width:200px;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(120deg); /* IE 9 */    -webkit-transform: rotate(120deg); /* Safari */    transform: rotate(120deg); float:left;position:relative; left:-104;top:172;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section3 input { border-radius:15px;background:url(\'images/lime_input.png\');background-size:100% 100%;}#section4 {width:200px;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(180deg); /* IE 9 */    -webkit-transform: rotate(180deg); /* Safari */    transform: rotate(180deg); float:left;position:relative; left:200;top:108;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section4 input { border-radius:15px;background:url(\'images/red_input.png\');background-size:100% 100%;}#section5 {width:200px;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(240deg); /* IE 9 */    -webkit-transform: rotate(240deg); /* Safari */    transform: rotate(240deg); float:left;position:relative; left:-100;top:53;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section5 input {border-radius:15px;background:url(\'images/purple_input.png\');background-size:100% 100%;}#section6 {width:200px;;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(300deg); /* IE 9 */    -webkit-transform: rotate(300deg); /* Safari */    transform: rotate(300deg); float:left;position:relative; left:-300;top:-63;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section6 input {border-radius:15px;background:url(\'images/grey_input.png\');background-size:100% 100%;}#game_inputs {background:url(\'images/hexagon.png\') no-repeat;background-position:100px 0px;background-size:390px 350px;}#game_inputs div div input {width:21px;height:21px;font-weight:bold; text-shadow:white 1px 1px 2px;cursor:pointer;text-transform: capitalize;border:2px solid black;text-align:center;z-index:10000}</style>",6,9,"\"<div id='section\" + z +\"' title='\" + z +\"'>\" + \"<div class='row' id='\" + z + \"'><input /><input /><input /><input /><input /><input /><input /><input /><input /></div>\" + \"<div  class='row' id='\" + (1*shape_sides+z) + \"'><input /><input /><input /><input /><input /><input /><input /></div>\" + \"<div class='row' id='\" + (2*shape_sides+z) + \"'><input /><input /><input /><input /><input /></div>\"  + \"<div class='row' id='\" + (3*shape_sides+z) + \"'><input /><input /><input /></div>\" + \"\" +\"</div>\";",24]);
+ 
+  
+ //PENTAGON
+ game_sets.push(['PENTAGON',['GAME 1',['reception','necessary','youngster','rearrange','encounter'],['earnest','torture','eclipse','elastic','capable'],['kudos','saint','tempt','theta','aback'],['tea','add','day','yet','tot']],['RULES 1',[' (n.) The act of receiving; receipt; admission; as, the   reception of food into the stomach; the reception of a letter; the   reception of sensation or ideas; reception of evidence.',' (a.) Impossible to be otherwise, or to be dispensed with,   without preventing the attainment of a desired result; indispensable;   requiste; essential.',' (n.) A young person; a youngling; a lad.',' (v. t.) To arrange again; to arrange in a different way.',' (v. i.) To meet face to face; to have a meeting; to meet,   esp. as enemies; to engage in combat; to fight; as, three armies   encountered at Waterloo.'],[' (a.) Serious; important.',' (n.) Extreme pain; anguish of body or mind; pang; agony;   torment; as, torture of mind.',' (n.) An interception or obscuration of the light of the sun,   moon, or other luminous body, by the intervention of some other body,   either between it and the eye, or between the luminous body and that   illuminated by it.',' (a.) Springing back; having a power or inherent property of   returning to the form from which a substance is bent, drawn, pressed,   or twisted; springy; having the power of rebounding; as, a bow is   elastic; the air is elastic; India rubber is elastic.',' (a.) Possessing ability, qualification, or susceptibility;   having capacity; of sufficient size or strength; as, a room capable of   holding a large number; a castle capable of resisting a long assault.'],[' (v. t.) To praise; to extol; to glorify.',' (n.) One of the blessed in heaven.',' (v. t.) To put to trial; to prove; to test; to try.',' (n.) A letter of the Greek alphabet corresponding to th in   English; writting like `o` stripped through',' (adv.) Behind; in the rear.'],[' (n.) The prepared leaves of a shrub, or small tree (Thea, /   Camellia, Chinensis). The shrub is a native of China, but has been   introduced to some extent into some other countries.',' (v. t.) To join or unite, as one thing to another, or as several   particulars, so as to increase the number.','(n.) The time of light, or interval between one night and the next;   the time between sunrise and sunset.',' (adv.) Up to the present time; thus far; hitherto; until now; --   and with the negative, not yet, not up to the present time.',' (n.) A foolish fellow.']],['TYPES','MEANING','MEANING','MEANING','MEANING'],"<style>#section1 {    -ms-transform: rotate(36deg); /* IE 9 */    -webkit-transform: rotate(36deg); /* Safari */    transform: rotate(36deg); float:left;position:relative; left:280; top:50px;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section1 input {border-radius:15px;background:url(\'images/blue_input.png\');background-size:100% 100%;}#section2 {    -ms-transform: rotate(108deg); /* IE 9 */    -webkit-transform: rotate(108deg); /* Safari */    transform: rotate(108deg); float:left;position:relative; left:68;top:177;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section2 input { border-radius:15px;background:url(\'images/yellow_input.png\');background-size:100% 100%;}#section3 {    -ms-transform: rotate(180deg); /* IE 9 */    -webkit-transform: rotate(180deg); /* Safari */    transform: rotate(180deg); float:left;position:relative; left:213;top:132;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section3 input { border-radius:15px;background:url(\'images/lime_input.png\');background-size:100% 100%;}#section4 {    -ms-transform: rotate(252deg); /* IE 9 */    -webkit-transform: rotate(252deg); /* Safari */    transform: rotate(252deg); float:left;position:relative; left:-147;top:53;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section4 input { border-radius:15px;background:url(\'images/red_input.png\');background-size:100% 100%;}#section5 {    -ms-transform: rotate(324deg); /* IE 9 */    -webkit-transform: rotate(324deg); /* Safari */    transform: rotate(324deg); float:left;position:relative; left:147;top:-195;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#game_inputs>div {width:250px;min-width:250px;max-width:250px;height:120px;min-height:120px;max-height:120px;}#section5 input {border-radius:15px;background:url(\'images/purple_input.png\');background-size:100% 100%;}#game_inputs {background:url(\'images/pentagon.png\') no-repeat;background-position:145px 0px;background-size:385px 385px;}#game_inputs div div input {width:26px;height:26px;font-weight:bold; text-shadow:white 1px 1px 2px;cursor:pointer;text-transform: capitalize;border:2px solid black;text-align:center;z-index:10000}</style>",5,9,"\"<div id='section\" + z +\"' title='\" + z +\"'>\" + \"<div class='row' id='\" + z + \"'><input /><input /><input /><input /><input /><input /><input /><input /><input /></div>\" + \"<div  class='row' id='\" + (1*shape_sides+z) + \"'><input /><input /><input /><input /><input /><input /><input /></div>\" + \"<div class='row' id='\" + (2*shape_sides+z) + \"'><input /><input /><input /><input /><input /></div>\"  + \"<div class='row' id='\" + (3*shape_sides+z) + \"'><input /><input /><input /></div>\" + \"\" +\"</div>\";",20]); 
+  
+ //OCTAGON
+ game_sets.push(['OCTAGON',['GAME 1',['tentacles','seductive','expressed','dangerous','specified','delineate','everytrip','permanent'],['display','yearned','defence','earlier','refrain','nearing','garbage','excused'],['carve','extra','alone','ember','right','tired','dream','music'],['art','two','one','ere','eve','eon','nil','lea']],['RULES 1',['Long, slim protrusions on invertebrates, used for grabbing or for sensing (n., pl.) ','Enticing (adj.) ','Communicated by word or action (v., past) ','Harmful (adj.) ','Stated (clearly) (v., past) ','Describe accurately (v.) ','Each (adj.) (5); journey (n.) ','Not temporary (adj.) '],['Show (n.) ','Desired (ardently) (v., past) ','Protection  (n.) ','Not later (adv.) ','Chorus (n.) ',' Approaching (v.) ','Trash (n.) ','Exempted  (v., past) '],['Cut  out (a shape) or cut into (a shape) v.) ','Additional (adj.) ','Solo (adv.) ','Glowing coal  (n.) ','Not left (adj.) ','Exhausted (v., past) ','Vision (n.) ',' Sweet, melodious and harmonious sound (n.) '],['Drawing, painting or sculpture (n.) ','A couple (um.) ','10 raised to the power of one (num.) ','Before (lit., prep.) ','The period before night (lit.) (n.) ','Era (n.) ','Naught (n.) ','Meadow (n.) ']],['TYPES','MEANING','MEANING','MEANING','MEANING'],"<style>#section1 {width:200px;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(0deg); /* IE 9 */    -webkit-transform: rotate(0deg); /* Safari */    transform: rotate(0deg); float:left;position:relative; left:320; top:0px;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section1 input {border-radius:15px;background:url(\'images/blue_input.png\');background-size:100% 100%;}#section2 {width:200px;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(45deg); /* IE 9 */    -webkit-transform: rotate(45deg); /* Safari */    transform: rotate(45deg); float:left;position:relative; left:248;top:54;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section2 input { border-radius:15px;background:url(\'images/yellow_input.png\');background-size:100% 100%;}#section3 {width:200px;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(90deg); /* IE 9 */    -webkit-transform: rotate(90deg); /* Safari */    transform: rotate(90deg); float:left;position:relative; left:99;top:183;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section3 input { border-radius:15px;background:url(\'images/lime_input.png\');background-size:100% 100%;}#section4 {width:200px;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(135deg); /* IE 9 */    -webkit-transform: rotate(135deg); /* Safari */    transform: rotate(135deg); float:left;position:relative; left:450;top:190;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section4 input { border-radius:15px;background:url(\'images/red_input.png\');background-size:100% 100%;}#section5 {width:200px;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(180deg); /* IE 9 */    -webkit-transform: rotate(180deg); /* Safari */    transform: rotate(180deg); float:left;position:relative; left:119;top:243;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section5 input {border-radius:15px;background:url(\'images/purple_input.png\');background-size:100% 100%;}#section6 {width:200px;;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(225deg); /* IE 9 */    -webkit-transform: rotate(225deg); /* Safari */    transform: rotate(225deg); float:left;position:relative; left:-212;top:189;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section6 input {border-radius:15px;background:url(\'images/grey_input.png\');background-size:100% 100%;}#section7 {width:200px;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(270deg); /* IE 9 */    -webkit-transform: rotate(270deg); /* Safari */    transform: rotate(270deg); float:left;position:relative; left:139;top:-62;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section7 input {border-radius:15px;background:url(\'images/purple_input.png\');background-size:100% 100%;}#section8 {width:200px;;min-width:200px;max-width:200px;height:120px;min-height:120px;max-height:120px;    -ms-transform: rotate(315deg); /* IE 9 */    -webkit-transform: rotate(315deg); /* Safari */    transform: rotate(315deg); float:left;position:relative; left:-10;top:-190;text-align:center;background:url(\'images/group_input_bgx.png\');background-size:100% 100%;//border:1px solid black;}#section8 input {border-radius:15px;background:url(\'images/grey_input.png\');background-size:100% 100%;}#game_inputs {background:url(\'images/octagon.png\') no-repeat;background-position:185px 0px;background-size:475px 485px;}#game_inputs div div input {width:21px;height:21px;font-weight:bold; text-shadow:white 1px 1px 2px;cursor:pointer;text-transform: capitalize;border:2px solid black;text-align:center;z-index:10000}</style>",8,9,"\"<div id='section\" + z +\"' title='\" + z +\"'>\" + \"<div class='row' id='\" + z + \"'><input /><input /><input /><input /><input /><input /><input /><input /><input /></div>\" + \"<div  class='row' id='\" + (1*shape_sides+z) + \"'><input /><input /><input /><input /><input /><input /><input /></div>\" + \"<div class='row' id='\" + (2*shape_sides+z) + \"'><input /><input /><input /><input /><input /></div>\"  + \"<div class='row' id='\" + (3*shape_sides+z) + \"'><input /><input /><input /></div>\" + \"\" +\"</div>\";",32]);
+ 
+ 
+ /////////////////////////
+ /////////////////////////
+ /////////////////////////
+ /*
+ CODE FOR RETRIVING GAMES FROM LOCAL STORAGAE HERE.
+ ->create if not existing
+ ->call contents and add to game_sets.array. May do checks to allow delete unwanted games
+ 
+ */
+ /////////////////////////
+ /////////////////////////
+ /////////////////////////
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  count_sets = game_sets.length;
+ ////code for game selection menu
+ games_content = "";
+ 
+ for (each_game in game_sets)
+ {
+ 
+ //alert(game_sets[each_game][0]);
+ //alert(each_game);
+games_content += "<button id='gameset_" + each_game + "' onclick='gameset(" + each_game +");set_game=" + each_game + ";'>" + game_sets[each_game][0] + "</button><br />";
+ 
+ }
+ 
+ 
+ $("#games").html($("#games").html() + "<br />" + games_content);
+ 
+//alert(game_sets[1]);
+ 
+ numsets = count_sets - 1;
+ 
+ function gameset(gno){  /// set game set high light
+for(p=0;p<=numsets;p++){
+if(p!=gno)
+{$("#gameset_" + p).attr("style","");}
+$("#gameset_" + gno).attr("style","border:4px dotted black;");
+}
+
+}
+ 
+  ///end code for game selection menu
+ 
+ ///ADD OFFLINE GAME SETS
+
+set_game  = 0;gameset(0);  ///initial game set
+ 
+function is_single(set_game){
+is_multiplay = 0;
+game1 =  game_sets[set_game][1];
+
+rules1 = game_sets[set_game][2];
+
+
+type1= game_sets[set_game][3];
+
+game_style = game_sets[set_game][4];
+
+shape_sides = game_sets[set_game][5];
+
+max_word = game_sets[set_game][6];
+
+game_drawer =  game_sets[set_game][7];
+
+
+team_id = 0;
+
+number_of_teams = 1; 
+
+bonus_time = 10;
+
+allowed_time_per_ques = 0;
+
+game_play_id = 0;
+
+my_turns = [];
+
+is_bonus = 0;
+
+loss_team = 0;
+
+ques_bonus = 0;
+
+last_max = 0;
+
+$("#score_button").hide();
+$("#progress_bar").html("<div id='progress_point' style=''>0%</div>");
+
+$('#player_display').html('SINGLE');
+
+ difficulty = 2;
+ 
+ $('#turn').html('<center>ARTCHIZ</center>');
+ $('#console_display').html('');
+ 
+ max_success_count = game_sets[set_game][8];
+ }
+ 
+ 
+ 
+ 
+z = 1;
+
+
+	
+
+
+	
+	
+//to process game data replace " with \" and remove breaklines
+////GAME DRAWER DATA
+
+/*
+"<div id='section" + z +"' title='" + z +"'>" +
+"<div class='row' id='" + z + "'><input /><input /><input /><input /><input /><input /></div>" +
+"<div  class='row' id='" + (1*shape_sides+z) + "'><input /><input /><input /><input /><input /></div>" +
+"<div class='row' id='" + (2*shape_sides+z) + "'><input /><input /><input /><input /></div>" +
+"<hr />" +
+"</div>";
+*/
+
+////END GAME DRAWER DATA
+
+//alert(dataarray[0][1][2]);
+
+
+
+
+function star_game(){
+
+if(is_multiplay ==0){
+is_single(set_game);
+}
+
+document.getElementById("game_style").innerHTML = game_style;
+
+$("#game_inputs").html("");
+game_data = [game1,rules1,type1];
+dataarray = game_data;
+sent_count = [];
+initiated_word = [];
+game_paused = false;
+game_mode = 1; //game mode 1 is squential, 2 is random
+init_word = 1;
+$("#progress_point").css("width",0);
+$("#progress_point").html("0%");
+
+  //GAME DEFAULTS
+
+var input_printer = "";
+for(z=1;z<=shape_sides;z++){
+input_printer += eval(game_drawer);//////////////game pattern here
+}
+
+/////CORRECT WORDS ARRAY
+cw_array = [];
+
+for(cw_set in game1){
+	if(cw_set>0){
+
+		for(cw in game1[cw_set]){
+		//alert(game1[cw_set][cw]);
+		cw_array.push(game1[cw_set][cw]);
+		}
+
+	}
+
+}
+
+//alert(cw_array.length);
+
+
+
+/////END CORRECT WORD ARRAYS
+
+
+
+
+
+
+if(is_multiplay == 1){
+///GET INITIATED WORDS
+	setInterval(function(){
+	
+// $("#" + current_word +" .empty").attr("disabled", "disabled");
+if(game_paused==false){
+if(is_multiplay == 1){
+get_active_gamesc("init_value",game_play_id);
+	}
+} 
+// alert('ELASPED');
+	},1000);
+	
+///END GET INITIATED WORDS
+
+
+////UPDATE SCORE BOARD
+	setInterval(function(){
+	
+score_info = game_play_id + "-" + team_id;
+if(game_paused==false){
+if(is_multiplay == 1){
+get_score_board("score_board",score_info);
+}
+} 
+// alert('ELASPED');
+	},1500);
+////END UPDATE SCORE BOARD
+
+
+////UPDATE TURNS
+	setInterval(function(){
+	
+
+//	if((my_turns.indexOf(Number(init_word%shape_sides)) != -1) && (is_bonus==0)){ 
+	if(((my_turns.indexOf(Number(init_word%shape_sides)) != -1) ||  ( (my_turns.indexOf(Number(shape_sides)) != -1) && ( (init_word%shape_sides) == 0) )   ) && (is_bonus == 0)){ 
+	if(is_multiplay == 1){
+	 if((init_word) != (max_success_count +1)){
+		$('#turn').html('YOUR TURN');
+		}
+		else
+		{
+		$('#turn').html('COMPLETE');
+		}
+		
+		
+		}
+	} 
+	else 
+	{ 
+	if(is_multiplay == 1){
+		if((init_word) != (max_success_count +1)){
+			$('#turn').html('NOT YOU');	
+		}
+		else
+		{
+			$('#turn').html('COMPLETE');
+		}		
+		
+		}
+	}
+
+	},1000);
+////END UPDATE TURNS
+
+	
+$("#score_button").show();	
+}
+
+
+/*
+//setTimeout("disable_inputs",100);
+setTimeout("aaa",1000);
+function aaa(){alert(903893);}
+function disable_inputs(){
+	if(game_mode ==1){
+		for(o=1;o<=shape_sides;o++){
+			$("'#section"+ o + " input'").attr("class","hdkj");
+			alert(o);
+		}
+	}
+
+}
+
+disable_inputs();
+*/
+
+$("#game_inputs").html(input_printer);
+$("#game_inputs input").val("");
+$("#game_inputs div div").attr("style",""); ///set for css
+$("#game_inputs input").val("");
+$("#game_inputs input").removeAttr("disabled");
+$("#game_inputs").scrollLeft("100px");
+$("#rule").html("<div id='play_key'></div>	");	
+$("#play_key").html("");
+x_time = 0;
+//END GAME DEFAULTS
+
+
+
+var dot = 100;
+
+
+for(i=1;i<=shape_sides;i++){
+//alert(i);
+
+
+
+
+    $("#section"+i).mouseenter(function(){
+     // if($(this).height() > 100) {
+        var v = $(this);
+	//	var dot = new Date().valueOf();
+	dot += 1;
+	//	alert(dot);
+	//$('#section6').css('zIndex','+6');	
+	v.css('zIndex',dot);	
+		side_title = v.attr('title');
+		//see_mod = init_word%side_title;
+		//see_mod = side_title%init_word;
+		remain = init_word%shape_sides;
+//if (((remain == side_title) || (remain == 0))){
+//alert(my_turns.indexOf(Number(side_title)));
+//alert(my_turns);
+//alert(side_title);
+
+
+
+
+if (((remain == side_title) || (remain == 0)) && ((my_turns.indexOf(Number(side_title)) != -1) || (is_multiplay == 0) || (is_bonus != 0))){
+see_mod = 0;
+}
+    //alert(v.attr("id"));
+	if (see_mod == 0){
+if(game_paused==false){
+         v.children().click(function(){
+//		alert(see_mod);
+var current_word = $(this).attr('id');   		 
+	if ((init_word == current_word) || (game_mode == 0)){
+	//alert("true");
+    s = $(this);    
+    //var ind = s.index('div'); 
+    var ind = $('.row').index(this); 
+    //alert(ind);
+	if ((max_word%2)!=0)
+	{
+	gkey = 0;
+	}
+	else{
+	gkey = 1;
+	}
+	if(max_word ==9){
+	//gkey 
+	}
+	
+	//alert("kldjkdi");
+ //   gsection = v.attr("id")[shape_sides + 1]; //select the
+    gsection = v.attr("id")[7]; //select the
+	
+	// alert(gsection);  
+    //gsection = v.attr("id")[max_word + gkey]; //select the
+	
+	//alert(gsection);
+	game_steps = game1.length - 1;
+	//alert(game_steps);
+    rlevel = (ind+1)%game_steps;
+ 	if(rlevel==0){rlevel=game_steps}
+    //alert(rlevel);
+    //alert(gsection);
+	word_id =  "word_" + gsection + "_" +  rlevel;
+		hint_type= "";
+		hint_value= "";
+             //if(){}
+      
+   max_length_of_word_string = '123456789';  
+     
+   word_length = dataarray[0][rlevel][gsection-1].length;  
+        
+   word_correct = dataarray[0][rlevel][gsection-1];   
+   word_correct_string = word_correct.toString();   
+
+
+   game_difficulty = Math.ceil(word_length/difficulty);   
+   word_length_string = max_length_of_word_string.substring(0,[word_length]);   
+   shuffled_string = shuffelWord(word_length_string);   
+   cut_shuffled_string = shuffled_string.substring(0,game_difficulty);
+ 
+var current_word = $(this).attr('id');                   
+ // alert(initiated_word);                 
+           //if((initiated_word.indexOf(word_id) == -1) && ((init_word == current_word) || (game_mode == 0))){
+           if((initiated_word.indexOf(word_id) == -1) && ((init_word == current_word) || (game_mode == 0))  && ((my_turns.indexOf(Number(side_title)) != -1) || (is_multiplay == 0) || ((is_bonus == 1) && ((ques_bonus == current_word))  ))  ){
+           //if(2>1){
+             //alert(word_id);
+//          initiated_word.push(word_id);
+             //alert(initiate_word);  
+
+var c = 0;
+var ini_loop = 0; 
+
+//alert($(this).attr('id')); // id of word_div
+
+
+//if (((init_word == current_word) || (game_mode == 0)) && (see_mod == 0) ){ 
+//if (((init_word == current_word) || (game_mode == 0)) && (see_mod == 0)  && ((my_turns.indexOf(Number(side_title)) != -1) || (is_multiplay == 0) || (is_bonus != 0))){ 
+if((initiated_word.indexOf(word_id) == -1) && ((init_word == current_word) || (game_mode == 0))  && ((my_turns.indexOf(Number(side_title)) != -1) || (is_multiplay == 0) || ((is_bonus == 1) && ((ques_bonus == current_word))  )  )  ){
+ 
+ for(c=0;c<=word_length;c++){
+   //GAME INITIATE
+     $(this).children("input:nth-child("+ c + 
+                      ")").attr("id", word_id + "_" + c);
+
+
+		hint_type= dataarray[2][rlevel];
+		hint_value= dataarray[1][rlevel][gsection-1];
+		$("#play_key").html("<b>Hint:</b>"+hint_type + " : " + hint_value);
+
+var this_word =  $(this).attr('id');
+
+    if(cut_shuffled_string.indexOf((c)) !== -1){
+	ini_value= dataarray[0][rlevel][gsection-1][c-1];
+	ini_value= ini_value.toUpperCase();
+	//	if (see_mod == 0){	
+                 $(this).children("input:nth-child("+ c + 
+                 ")").val(ini_value).attr("disabled","disabled");
+	
+	//	}		 
+			/*	 $(this).children("input:nth-child("+ c + 
+                 ")").siblings(".empty").focus();
+				 
+			*/
+				 
+	
+
+      }
+      
+      
+      
+      //	END GAME INITIATE
+         //GAME PLAY
+    else
+    {
+ 
+        $(this).children("input:nth-child("+ c + 
+                 ")").addClass("empty");
+                 
+  		$(this).children("input:nth-child("+ c + 
+                 ")").click(function () {                
+                	//alert($(this).val());                     
+                  	$(this).val("");								
+                 });
+				 
+	   		$(this).children("input:nth-child("+ c + 
+                 ")").focusin(function () {                
+                	//alert($(this).val());                     			
+		hint_type= dataarray[2][rlevel];
+		hint_value= dataarray[1][rlevel][gsection-1];
+		$("#play_key").html("<b>Hint:</b>"+hint_type + " : " + hint_value);					
+                 });
+				   		$(this).children("input:nth-child("+ c + 
+                 ")").click(function () {                
+                	//alert($(this).val());                     			
+		hint_type= dataarray[2][rlevel];
+		hint_value= dataarray[1][rlevel][gsection-1];
+		$("#play_key").html("<b>Hint:</b>"+hint_type + " : " + hint_value);					
+                 });	
+				 
+				 				   		$(this).children("input:nth-child("+ c + 
+                 ")").mouseover(function () {                
+                	//alert($(this).val());                     			
+		hint_type= dataarray[2][rlevel];
+		hint_value= dataarray[1][rlevel][gsection-1];
+		$("#play_key").html("<b>Hint:</b>"+hint_type + " : " + hint_value);					
+                 });	
+
+				   		$(this).children("input:nth-child("+ c + 
+                 ")").focusout(function () {                
+                	//alert($(this).val());                     			
+		$("#play_key").html("");					
+                 });					 
+	
+	/*			 
+  		$(this).children("input:nth-child("+ c + 
+                 ")").click(function () {                
+                	//alert($(this).val());                     
+                  	$(this).val("");
+                 });
+	*/			 
+				 
+				 
+        var word_group = $(this); 
+		 
+  		$(this).children("input:nth-child("+ c + 
+                 ")").keyup(function () {   
+            var this_value = $(this).val();
+            this_value = this_value.trim();
+			//alert(this_value);
+            var this_value_sub = this_value.substring(0,1).toUpperCase();
+            //alert(this_value_sub);
+			$(this).val(this_value_sub);
+			//$("#game_inputs input").removeAttr("autofocus");
+			$(this).next("input:.empty").focus();
+			word_groupx = $(this).parent(); 
+			//alert(this_value_sub);
+			score(word_groupx,word_length,word_correct_string,this_word);
+                 }); 
+       // score(word_group);
+
+           
+    //shuffled_string.substring(0,game_difficulty);
+    }
+				
+ 		//END GAME PLAY 
+		
+		//ensuring loop is complete before initiating
+		//real_wordlenght = word_length -1;		
+		real_wordlenght = word_length;		
+		if(c==real_wordlenght)
+		{
+		ini_loop=1;
+	//	alert("loaded");
+		}
+
+
+    }
+}
+
+var correction = word_correct_string.toUpperCase();	
+
+	if(ini_loop==1){
+initiated_word.push(word_id);
+//	alert("loaded 2");
+// alert("INITIATED " + current_word);/////ADD INITIATION TIMER HEAR
+init_time_begin = new Date().valueOf();
+
+if(is_multiplay ==1 && is_bonus ==0){
+//allowed_time_per_ques
+
+	setTimeout(function(){
+	
+		 if(current_word == init_word){		 
+
+		 //if(){
+		 $("#" + current_word +" .empty").attr("disabled", "disabled");
+		 /////SETTING THE BONUS
+		 bonus_details = game_play_id + "-" + team_id + "-" + current_word;
+		 get_active_games("set_bonus",bonus_details);
+		 //alert('ELASPED, BONUS SET');
+		 $("#console_display").html("BONUS SET");
+		 ///unset bonus
+		 	setTimeout(function(){
+		 /////UNSETTING THE BONUS
+
+		score_detailsx = "COMPUTER" + "-" + current_word +  "-"+ correction  + "-" + game_play_id + "-" + 0 + "-" + 0;
+		get_active_games("score",score_detailsx);///sending correction
+		
+		//alert(score_detailsx);
+		get_active_games("unset_bonus",game_play_id);
+
+	//	alert('ELASPED, BONUS 	TERMINATE');
+	//	alert(correction);
+		
+			},bonus_time * 1000);		 
+		 ///end unset bonus	
+		//}
+		 
+		 }
+ 
+	},allowed_time_per_ques * 1000);
+} 
+
+
+//if(is_multiplay ==1 && is_bonus ==1 && loss_team != team_id){
+
+if((is_multiplay ==1) && (is_bonus == 1)){
+//allowed_time_per_ques
+
+	setTimeout(function(){
+	
+		 if(current_word == init_word){		 
+
+		 //if(){
+		 $("#" + current_word +" .empty").attr("disabled", "disabled");
+	//	 alert('BONUS TERMINATED');		 
+		 }
+ 
+	},bonus_time * 1000);
+} 
+
+
+
+
+ 
+}	
+/*
+
+        			///SCORING
+					
+         for(c=1;c<=6;c++){
+     this_input_value_scoring = $(this).children("input:nth-child("+ c + 
+                      ")").val();
+     alert(this_input_value_scoring);
+                   }   
+                      
+                   ///SCORING
+*/
+			//score($(this));
+	//	score(value,word_length,word_correct_string);
+}
+else{
+//score(s);
+}
+
+}
+        });
+}
+}
+     // }
+    });
+
+}
+}
+							///SCORING	
+		function score(value,word_length,word_correct_string,this_word){
+
+var checker =  "";
+var q = "";							
+				 for(q=1;q<=word_correct_string.length;q++){
+			 this_input_value_scoring = $(value).children("input:nth-child("+ q + ")").val();
+			 //alert(this_input_value_scoring);
+			 //if(this_input_value_scoring != 'undefined'){
+			checker += this_input_value_scoring;
+			//}
+						   }
+//	alert(checker);					   
+						   
+						   
+if(checker.toUpperCase() == word_correct_string.toUpperCase())
+{
+//alert(this_word + " is CORRECT");
+$("#play_key").html("");
+
+
+///send if correct
+if(is_multiplay == 1){
+init_time_end = new Date().valueOf();
+answer_time = Math.ceil((init_time_end-init_time_begin)/1000);
+//alert(answer_time);
+score_details = team_id + "-" + this_word +  "-"+ checker.toUpperCase()  + "-" + game_play_id + "-" + is_bonus + "-" + answer_time;
+get_active_games("score",score_details);
+//alert(score_details);
+}
+else
+{
+init_word = init_word + 1;
+}
+
+///end send if correct
+
+
+$(value).attr("style","background:url('images/complete_input_bg.png');background-size:100% 100%;"); //set for css
+
+			 for(r=1;r<=word_correct_string.length;r++){
+				$(value).children("input:nth-child("+ r + ")").attr("disabled","disabled");
+				$("#play_key").html("");
+			}
+
+     if(sent_count.indexOf(checker.toUpperCase()) == -1){
+           //if(2>1){
+             //alert(word_id);
+          sent_count.push(checker.toUpperCase());
+	//		 alert(sent_count.length);
+			
+			if(is_multiplay == 0){
+			 $("#play_key").html("");
+			 $("#progress_point").css("width",(sent_count.length/max_success_count*100*number_of_teams)+"%");
+			 $("#progress_point").html(Math.ceil(sent_count.length/max_success_count*100*number_of_teams)+"%");
+			 }
+			 
+		  }
+
+
+
+	if(is_multiplay == 0){
+	//if(sent_count.length==2){
+		if(sent_count.length==max_success_count){
+			//	alert("CONGRATS, GAME COMPLETE");
+				//		$("#play_key").html("GAME COMPLETED!");	
+				complete_page();
+				
+				game_paused = true;
+		}	
+	}					  
+		}
+		}
+						   ///SCORING
+
+						   function answer(init_last){
+						   
+						 //  alert(cw_array[init_last-1]);
+						   for(ij=1; ij<init_last; ij++){
+						   
+					//	alert(cw_array[ij-1]);
+						xxxword = cw_array[ij-1];
+						for(n=0;n<=xxxword.length;n++){
+						$("#" + ij).children("input:nth-child("+ (n+1) + ")").val(cw_array[ij-1][n]);
+						$("#" + ij).children("input:nth-child("+ (n+1) + ")").attr('disabled','disabled');
+						}
+						
+						   }
+						   
+						   if((init_word) != (max_success_count +1)){
+						    $("#console_display").html("");
+							}
+							else{
+							$("#console_display").html("<b>GAME IS COMPLETE</b>");
+							}
+								
+							////may check to see next player
+						   last_max = init_last;
+						//   alert(last_max);
+						   
+						   
+						   }
+						   
+						   
+						   
+/*
+    $("#rule").click(function(){
+     $(this).fadeOut();
+    // $("ul li:nth-child(2)").append("<span> - 2nd!</span>");
+      //  alert('hello');
+    });
+*/
+
+</script>
+
+
+
+
+
+
+
+
+</body>
 </html>
