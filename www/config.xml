@@ -3,17 +3,17 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.curtiscreat.happycards"
-        version   = "1.0.0">
+        id        = "com.curtiscreat.happycards2019"
+        version   = "1.5.1">
 
-    <name>Happy Cards</name>
+    <name>Happy Cards 2019</name>
 
     <description>
-   A greeting cards and notifications cards generation app
+   Virtual Rabbi Educational Virtual Reality Project.
     </description>
 
-    <author href="http://curtiscreat.com/happy_cards" email="stivino1224@gmail.com">
-      CURTIS CREATIONS and SERVER ZERO TECHNOLOGIES 
+    <author href="https://vrabbi.org" email="virtualrabbieducation@gmail.com">
+      VIRTUAL RABBI EDUCATIONAL
     </author>
 
     <!-- Define the main entry-point to the application -->
@@ -22,31 +22,31 @@
     <!-- Customize your app and platform with the preference element. -->
     <preference name="DisallowOverscroll"         value="true" />
     <!-- android: MIN SDK version supported on the target device. MAX version is blank by default. -->
-    <preference name="android-minSdkVersion"      value="14" />
+    <preference name="android-minSdkVersion"      value="20" />
+    <preference name="android-targetSdkVersion"      value="28" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
-    <preference name="fullscreen" value="false" /> 
+    <preference name="fullscreen" value="true" /> 
     <preference name="KeepRunning" value="true"/>
     <preference name="ShowTitle" value="false"/>
     <preference name="LoadingDialog" value="Wait,Loading..."/> 
     <preference name="InAppBrowserStorageEnabled" value="true"/>
    <preference name="HideKeyboardFormAccessoryBar" value="true"/>
-   <preference name="Orientation" value="portrait" />
+   <preference name="Orientation" value="landscape" />
    <preference name="LoadUrlTimeoutValue" value="90000"/>
 
     <!-- Define a specific version of PhoneGap to build into your app. -->
-    <!-- <preference name="phonegap-version"       value="cli-6.0.0" /> -->
+    <preference name="phonegap-version"       value="cli-9.0.0" />
 
     <!-- Plugins -->
     <!-- Core plugins -->
-    <plugin name="cordova-plugin-battery-status"      source="npm" spec="~1.1.1" />
-    <plugin name="cordova-plugin-camera"              source="npm" spec="~2.1.1" />
+    <!--<plugin name="cordova-plugin-battery-status"      source="npm" spec="~1.1.1" />-->
     <plugin name="cordova-plugin-media-capture"       source="npm" spec="~1.2.0" />
     <plugin name="cordova-plugin-console"             source="npm" spec="~1.0.2" />
 
     <plugin name="cordova-plugin-contacts"            source="npm" spec="~2.0.1" />
-    <plugin name="cordova-plugin-device"              source="npm" spec="~1.1.1" />
+  <!--  <plugin name="cordova-plugin-device"              source="npm" spec="~1.1.1" />
     <plugin name="cordova-plugin-device-motion"       source="npm" spec="~1.2.0" />
-    <plugin name="cordova-plugin-device-orientation"  source="npm" spec="~1.0.2" />
+    <plugin name="cordova-plugin-device-orientation"  source="npm" spec="~1.0.2" />  -->
     <plugin name="cordova-plugin-dialogs"             source="npm" spec="~1.2.0" />
     <plugin name="cordova-plugin-file"                source="npm" spec="~4.1.1" />
     <plugin name="cordova-plugin-file-transfer"       source="npm" spec="~1.5.0" />
@@ -57,77 +57,15 @@
     <plugin name="cordova-plugin-network-information" source="npm" spec="~1.2.0" />
   <!--  <plugin name="cordova-plugin-splashscreen"        source="npm" spec="~3.2.1" /> -->
     <plugin name="cordova-plugin-statusbar"           source="npm" spec="~2.1.2" />
-    <plugin name="cordova-plugin-vibration"           source="npm" spec="~2.1.0" />
+   <!-- <plugin name="cordova-plugin-vibration"           source="npm" spec="~2.1.0" />  -->
     <plugin name="cordova-plugin-whitelist"           source="npm" spec="~1.2.1" />
     <plugin name="com.virtuoworks.cordova-plugin-canvascamera" spec="https://github.com/VirtuoWorks/CanvasCameraPlugin.git" />
     <plugin name="cordova-plugin-x-socialsharing" source="npm" version="5.4.0" />
     <plugin name="admob" source="npm" version="5.4.2"/>
 
     <!-- Define app icon and splashscreen for each platform. -->
-    <icon src="www/icon.png" />
+    <icon src="icon.png" />
 
-    <platform name="ios">
-        <icon   src="www/icon.png"                         platform="ios" width="57"   height="57" />
-        <icon   src="www/icon.png"                      platform="ios" width="114"  height="114" />
-        <icon   src="www/icon.png"                      platform="ios" width="40"   height="40" />
-        <icon   src="www/icon.png"                   platform="ios" width="80"   height="80" />
-        <icon   src="www/icon.png"                      platform="ios" width="50"   height="50" />
-        <icon   src="www/icon.png"                   platform="ios" width="100"  height="100" />
-        <icon   src="www/icon.png"                      platform="ios" width="60"   height="60" />
-        <icon   src="www/icon.png"                   platform="ios" width="120"  height="120" />
-        <icon   src="www/icon.png"                   platform="ios" width="180"  height="180" />
-        <icon   src="www/icon.png"                      platform="ios" width="72"   height="72" />
-        <icon   src="www/icon.png"                   platform="ios" width="144"  height="144" />
-        <icon   src="www/icon.png"                      platform="ios" width="76"   height="76" />
-        <icon   src="www/icon.png"                   platform="ios" width="152"  height="152" />
-        <icon   src="www/icon.png"                   platform="ios" width="29"   height="29" />
-        <icon   src="www/icon.png"                platform="ios" width="58"   height="58" />
-        <icon   src="www/icon.png"                platform="ios" width="87"   height="87" />
-      <!--  <splash src="www/icon.png"     platform="ios" width="640"  height="1136" />
-        <splash src="www/icon.png"               platform="ios" width="750"  height="1334" />
-        <splash src="www/icon.png"               platform="ios" width="1242" height="2208" />
-        <splash src="www/icon.png"     platform="ios" width="2208" height="1242" />
-        <splash src="www/icon.png"  platform="ios" width="2048" height="1536" />
-        <splash src="www/icon.png"     platform="ios" width="1024" height="768" />
-        <splash src="www/icon.png"   platform="ios" width="1536" height="2048" />
-        <splash src="www/icon.png"      platform="ios" width="768"  height="1024" />
-        <splash src="www/icon.png"          platform="ios" width="640"  height="960" />
-        <splash src="www/icon.png"             platform="ios" width="320"  height="480" /> -->
-    </platform>
-
-    <platform name="wp8">
-        <icon   src="www/icon.png"   platform="wp8" width="99"  height="99" />
-        <icon   src="www/icon.png"        platform="wp8" width="159" height="159" />
-   <!--     <splash src="www/icon.png" platform="wp8" width="768" height="1280" />  -->
-    </platform>
-
-    <platform name="windows">
-        <!-- For Windows the recommended approach to define app icons is to use target attribute -->
-        <!-- <icon src="www/res/icon/windows/StoreLogo.png"         target="StoreLogo" /> -->
-        <!-- <icon src="www/res/icon/windows/Square30x30Logo.png"   target="Square30x30Logo" /> -->
-        <!-- <icon src="www/res/icon/windows/Square44x44Logo.png"   target="Square44x44Logo" /> -->
-        <!-- <icon src="www/res/icon/windows/Square70x70Logo.png"   target="Square70x70Logo" /> -->
-        <!-- <icon src="www/res/icon/windows/Square71x71Logo.png"   target="Square71x71Logo" /> -->
-        <!-- <icon src="www/res/icon/windows/Square150x150Logo.png" target="Square150x150Logo" /> -->
-        <!-- <icon src="www/res/icon/windows/Square310x310Logo.png" target="Square310x310Logo" /> -->
-        <!-- <icon src="www/res/icon/windows/Wide310x150Logo.png"   target="Wide310x150Logo" /> -->
-        <icon src="www/icon.png"     platform="windows"   width="150"  height="150" />
-        <icon src="www/icon.png"       platform="windows"   width="30"   height="30" />
-        <icon src="www/icon.png"             platform="windows"   width="50"   height="50" />
-        <splash src="www/icon.png"      platform="windows"   width="620"  height="300" />
-        <!-- scaled images are specified here for backward compatibility only so we can find them by size -->
-        <icon   src="www/icon.png"           platform="windows"   width="120"  height="120" />
-        <icon   src="www/icon.png"     platform="windows"   width="44"   height="44" />
-        <icon   src="www/icon.png"     platform="windows"   width="106"  height="106" />
-        <icon   src="www/icon.png"     platform="windows"   width="70"   height="70" />
-        <icon   src="www/icon.png"     platform="windows"   width="71"   height="71" />
-        <icon   src="www/icon.png"     platform="windows"   width="170"  height="170" />
-        <icon   src="www/icon.png"   platform="windows"   width="360"  height="360" />
-        <icon   src="www/icon.png"   platform="windows"   width="310"  height="310" />
-        <icon   src="www/icon.png"     platform="windows"   width="310"  height="150" />
-        <icon   src="www/icon.png"     platform="windows"   width="744"  height="360" />
-        <splash src="www/icon.png" platform="windows"   width="1152" height="1920" />
-    </platform>
 
     <!--
         Define access to external domains.
