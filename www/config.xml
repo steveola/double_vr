@@ -3,8 +3,8 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.curtiscreat.happycards2019"
-        version   = "1.5.1">
+        id        = "org.vrabbi.doublevr"
+        version   = "1.1.1">
 
     <name>Double VR</name>
 
